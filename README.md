@@ -1,0 +1,1 @@
+# wikiconv-structural-patterns
