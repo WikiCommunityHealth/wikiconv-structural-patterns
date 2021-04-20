@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "wikiconv-structural-patterns"
+version = "0.1.0"
+description = ""
+authors = ["Francesco Bozzo <francesco.bozzo.99@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.20.2"
+pandas = "^1.2.4"
+matplotlib = "^3.4.1"
+psycopg2 = "^2.8.6"
+networkx = "^2.5.1"
+tqdm = "^4.60.0"
+
+[tool.poetry.dev-dependencies]
+notebook = "^6.3.0"
+black = "^20.8b1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
