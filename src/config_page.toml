@@ -1,0 +1,19 @@
+[database]
+dbname = "postgres"
+table = "page_metrics_it"
+user = "postgres"
+password = "postgrespassword"
+host = "localhost"
+port = 5433
+
+[metrics]
+action_type = false
+discussion_depth = false
+toxicity = true
+user_involved = false
+vandalism = true
+chain = false
+
+[general]
+target_field = "pageId"
+buffer_size = 1000000
