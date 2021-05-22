@@ -52,7 +52,7 @@ class MetricVandalism(Metric):
 
         if vandalism_by_month:
             output = self._output_metrics(
-                vandalism_by_month, count_vandal, records[0]["pageTitle"]
+                vandalism_by_month, count_vandal, block_id
             )
 
         return output

@@ -77,7 +77,6 @@ class MetricActionType(Metric):
             actions_by_month[year_month]["TOTAL"] += 1
 
         if len(records):
-            # output = self.output_metrics(metrics_by_month, len(records), block_id)
-            output = self._output_metrics(actions_by_month, len(records), records[0]["pageTitle"])
+            output = self._output_metrics(actions_by_month, len(records), block_id)
 
         return output

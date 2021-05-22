@@ -50,7 +50,7 @@ class MetricUserInvolved(Metric):
 
         if new_users_by_month:
             output = self._output_metrics(
-                new_users_by_month, len(users), records[0]["pageTitle"]
+                new_users_by_month, len(users), block_id
             )
 
         return output

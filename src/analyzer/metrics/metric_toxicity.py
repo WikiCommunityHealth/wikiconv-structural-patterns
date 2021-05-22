@@ -41,6 +41,13 @@ class MetricToxicity(Metric):
         count_severe_toxicity = 0
 
         for record in records:
+            if "type" in record:
+                if record["type"] == "DELETION":
+                    continue
+                # TODO: create new metrics to count number of toxic actions removed
+            else:
+                continue
+
             if "score" in record:
                 year_month = record["year_month"]
                 score = record["score"]
@@ -63,7 +70,7 @@ class MetricToxicity(Metric):
                     toxicity_by_month,
                     "toxicity",
                     count_toxicity,
-                    records[0]["pageTitle"],
+                    block_id,
                 )
             )
 
@@ -73,7 +80,7 @@ class MetricToxicity(Metric):
                     severe_toxicity_by_month,
                     "severeToxicity",
                     count_severe_toxicity,
-                    records[0]["pageTitle"],
+                    block_id,
                 )
             )
 

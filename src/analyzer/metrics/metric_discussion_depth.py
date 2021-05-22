@@ -50,9 +50,6 @@ class MetricDiscussionDepth(Metric):
                     )
 
         if len(records):
-            # output = self.output_metrics(depth_by_month, max_depth, block_id)
-            output = self._output_metrics(
-                depth_by_month, max_depth, records[0]["pageTitle"]
-            )
+            output = self._output_metrics(depth_by_month, max_depth, block_id)
 
         return output
