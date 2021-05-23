@@ -1,6 +1,6 @@
 [database]
 dbname = "postgres"
-table = "pages_ca"
+table = "page_metrics_ca"
 user = "postgres"
 password = "postgrespassword"
 host = "localhost"
