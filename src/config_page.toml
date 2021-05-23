@@ -1,6 +1,6 @@
 [database]
 dbname = "postgres"
-table = "page_metrics_ca"
+table = "pages_ca"
 user = "postgres"
 password = "postgrespassword"
 host = "localhost"
@@ -12,8 +12,9 @@ discussion_depth = true
 toxicity = true
 user_involved = true
 vandalism = true
-chain = false
+hindex = true
+chain = true
 
 [general]
-target_field = "pageId"
+target_field = "pageTitle"
 buffer_size = 1000000
