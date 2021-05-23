@@ -1,0 +1,20 @@
+[database]
+dbname = "postgres"
+table = "pages_es"
+user = "postgres"
+password = "postgrespassword"
+host = "localhost"
+port = 5433
+
+[metrics]
+action_type = true
+discussion_depth = true
+toxicity = true
+user_involved = true
+vandalism = true
+hindex = true
+chain = true
+
+[general]
+target_field = "pageTitle"
+buffer_size = 1000000
