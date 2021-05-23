@@ -1,0 +1,19 @@
+[database]
+dbname = "postgres"
+table = "user_metrics_es"
+user = "postgres"
+password = "postgrespassword"
+host = "localhost"
+port = 5433
+
+[metrics]
+action_type = true
+discussion_depth = true
+toxicity = true
+user_involved = false
+vandalism = true
+chain = false
+
+[general]
+target_field = "username"
+buffer_size = 1000000
