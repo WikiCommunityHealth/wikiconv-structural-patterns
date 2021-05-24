@@ -7,12 +7,12 @@ host = "localhost"
 port = 5433
 
 [metrics]
-action_type = true
-discussion_depth = true
-toxicity = true
-user_involved = true
-vandalism = true
-hindex = true
+action_type = false
+discussion_depth = false
+toxicity = false
+user_involved = false
+vandalism = false
+hindex = false
 chain = true
 
 [general]

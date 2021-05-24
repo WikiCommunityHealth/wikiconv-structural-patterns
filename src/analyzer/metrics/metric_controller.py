@@ -58,6 +58,7 @@ class MetricController:
 
             if isinstance(metric_type, MetricChain):
                 new_metrics, chains = metric_type.calculate_metric_for_block(records, block_id)
+                self.buffer_metrics.extend(new_metrics)
                 self.buffer_chains.extend(chains)
             else:
                 new_metrics = metric_type.calculate_metric_for_block(records, block_id)
