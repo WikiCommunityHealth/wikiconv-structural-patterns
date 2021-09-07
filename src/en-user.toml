@@ -5,6 +5,7 @@ user = "postgres"
 password = "postgrespassword"
 host = "localhost"
 port = 5433
+reset = true
 
 [metrics]
 action_type = true

@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Tuple
 from .metric import Metric, Record
-from ..database import ChainDB, MetricDB
+from ..output import ChainOutput, MetricOutput
 
 import networkx as nx
 
@@ -78,8 +78,8 @@ class MetricChain(Metric):
                     }
                 )
 
-    def _output_metrics(self, depth_by_month: dict, block_id: str) -> List[MetricDB]:
-        output: List[MetricDB] = []
+    def _output_metrics(self, depth_by_month: dict, block_id: str) -> List[MetricOutput]:
+        output: List[MetricOutput] = []
 
         self.visited = dict(zip(self.G.nodes, [False] * len(self.G.nodes)))
         for node in self.G.nodes:
@@ -101,7 +101,7 @@ class MetricChain(Metric):
             cumulative_chains += curr_chains
 
             output.append(
-                MetricDB(
+                MetricOutput(
                     block_id=block_id,
                     metric_name="message_chains",
                     year_month=year_month,
@@ -113,7 +113,7 @@ class MetricChain(Metric):
             )
 
             output.append(
-                MetricDB(
+                MetricOutput(
                     block_id=block_id,
                     metric_name="num_chains",
                     year_month=year_month,
@@ -128,7 +128,7 @@ class MetricChain(Metric):
 
     def calculate_metric_for_block(
         self, records: List[Record], block_id: str
-    ) -> Tuple[List[MetricDB], List[ChainDB]]:
+    ) -> Tuple[List[MetricOutput], List[ChainOutput]]:
         output = []
         depth_by_month = {}
 
@@ -160,12 +160,12 @@ class MetricChain(Metric):
         self.num_chains = 0
         self.num_chain_messages = 0
 
-        chain_dbs: List[ChainDB] = []
+        chain_dbs: List[ChainOutput] = []
 
         for year_month, chains in self.chains.items():
             for chain in chains:
                 chain_dbs.append(
-                    ChainDB(
+                    ChainOutput(
                         chain["first"],
                         chain["second"],
                         chain["year_month"],

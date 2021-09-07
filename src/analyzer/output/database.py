@@ -1,58 +1,11 @@
-from dataclasses import dataclass
-from typing import List
-import datetime
-
 import psycopg2
 
-
-@dataclass
-class MetricDB:
-    """Class for keeping track of a metric in the database"""
-
-    block_id: str
-    metric_name: str
-    year_month: str
-    abs_actual_value: float
-    rel_actual_value: float
-    abs_cumulative_value: float
-    rel_cumulative_value: float
-
-    def unpack(self):
-        return (
-            self.block_id,
-            self.metric_name,
-            self.year_month,
-            self.abs_actual_value,
-            self.rel_actual_value,
-            self.abs_cumulative_value,
-            self.rel_cumulative_value,
-        )
-
-@dataclass
-class ChainDB:
-    """Class for keeping track of a metric in the database"""
-
-    first: str
-    second: str
-    year_month: str
-    timestamp_begin: datetime.datetime
-    timestamp_end: datetime.datetime
-    duration_sec: int
-    length: int
-
-    def unpack(self):
-        return (
-            self.first,
-            self.second,
-            self.year_month,
-            self.timestamp_begin,
-            self.timestamp_end,
-            self.duration_sec,
-            self.length,
-        )
+from typing import List
+from .data import MetricOutput, ChainOutput
+from .device import Device
 
 
-class Database:
+class Database(Device):
     """Class to manage database access"""
 
     def __init__(
@@ -125,21 +78,21 @@ class Database:
         self.cur.execute(query)
         self.conn.commit()
 
-    def send_metric_data(self, data: List[MetricDB]):
+    def send_metric_data(self, data: List[MetricOutput]):
         try:
             self.cur.executemany(
                 f"INSERT INTO {self.table_metrics} VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                map(MetricDB.unpack, data),
+                map(MetricOutput.unpack, data),
             )
             self.conn.commit()
         except Exception:
             print("Error saving metric data to the database")
 
-    def send_chain_data(self, data: List[ChainDB]):
+    def send_chain_data(self, data: List[ChainOutput]):
         try:
             self.cur.executemany(
                 f"INSERT INTO {self.table_chains} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s)",
-                map(ChainDB.unpack, data),
+                map(ChainOutput.unpack, data),
             )
             self.conn.commit()
         except Exception:
@@ -147,49 +100,3 @@ class Database:
 
     def close(self):
         self.conn.close()
-
-
-class BufferMetricDB:
-    def __init__(self, max_size: int, database: Database) -> None:
-        self.buffer: List[MetricDB] = []
-        self.max_size = max_size
-        self.database = database
-
-    def __len__(self):
-        return len(self.buffer)
-
-    def clean(self):
-        self.buffer.clear()
-
-    def extend(self, metrics: List[MetricDB]):
-        self.buffer.extend(metrics)
-
-        if len(self.buffer) > self.max_size:
-            self.flush()
-
-    def flush(self):
-        self.database.send_metric_data(self.buffer)
-        self.clean()
-
-
-class BufferChainDB:
-    def __init__(self, max_size: int, database: Database) -> None:
-        self.buffer: List[ChainDB] = []
-        self.max_size = max_size
-        self.database = database
-
-    def __len__(self):
-        return len(self.buffer)
-
-    def clean(self):
-        self.buffer.clear()
-
-    def extend(self, chains: List[ChainDB]):
-        self.buffer.extend(chains)
-
-        if len(self.buffer) > self.max_size:
-            self.flush()
-
-    def flush(self):
-        self.database.send_chain_data(self.buffer)
-        self.clean()

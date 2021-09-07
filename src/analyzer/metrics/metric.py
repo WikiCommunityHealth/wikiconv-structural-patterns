@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Any, List, Dict
-from ..database import MetricDB
+from ..output import MetricOutput
 
 Record = Dict[str, Any]
 
@@ -21,5 +21,5 @@ class Metric(ABC):
     @abstractmethod
     def calculate_metric_for_block(
         self, records: List[Record], block_id: str
-    ) -> List[MetricDB]:
+    ) -> List[MetricOutput]:
         ...

@@ -1,6 +1,6 @@
 from typing import Dict, Set, List
 from .metric import Metric, Record
-from ..database import MetricDB
+from ..output import MetricOutput
 
 
 class MetricUserInvolved(Metric):
@@ -10,15 +10,15 @@ class MetricUserInvolved(Metric):
 
     def _output_metrics(
         self, new_users_by_month: dict, num_users: int, block_id: str
-    ) -> List[MetricDB]:
-        output: List[MetricDB] = []
+    ) -> List[MetricOutput]:
+        output: List[MetricOutput] = []
 
         cumulative_num_users = 0
         for year_month, new_users in new_users_by_month.items():
             cumulative_num_users += new_users
 
             output.append(
-                MetricDB(
+                MetricOutput(
                     block_id=block_id,
                     metric_name="user_involved",
                     year_month=year_month,
@@ -33,7 +33,7 @@ class MetricUserInvolved(Metric):
 
     def calculate_metric_for_block(
         self, records: List[Record], block_id: str
-    ) -> List[MetricDB]:
+    ) -> List[MetricOutput]:
         output = []
         users = set()
         new_users_by_month = {}

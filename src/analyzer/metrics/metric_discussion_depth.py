@@ -1,6 +1,6 @@
 from typing import Dict, List
 from .metric import Metric, Record
-from ..database import MetricDB
+from ..output import MetricOutput
 
 
 class MetricDiscussionDepth(Metric):
@@ -10,14 +10,14 @@ class MetricDiscussionDepth(Metric):
 
     def _output_metrics(
         self, depth_by_month: dict, max_depth: int, block_id: str
-    ) -> List[MetricDB]:
-        output: List[MetricDB] = []
+    ) -> List[MetricOutput]:
+        output: List[MetricOutput] = []
         current_max_depth = -1
 
         for year_month, value in depth_by_month.items():
             current_max_depth = max(current_max_depth, value)
             output.append(
-                MetricDB(
+                MetricOutput(
                     block_id=block_id,
                     metric_name="max_depth",
                     year_month=year_month,
@@ -31,7 +31,7 @@ class MetricDiscussionDepth(Metric):
 
     def calculate_metric_for_block(
         self, records: List[Record], block_id: str
-    ) -> List[MetricDB]:
+    ) -> List[MetricOutput]:
         output = []
         depth_by_month = {}
         max_depth = -1

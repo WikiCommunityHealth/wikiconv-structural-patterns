@@ -1,6 +1,6 @@
 from typing import Dict, List
 from .metric import Metric, Record
-from ..database import MetricDB
+from ..output import MetricOutput
 
 
 class MetricActionType(Metric):
@@ -10,8 +10,8 @@ class MetricActionType(Metric):
 
     def _output_metrics(
         self, actions_by_month: dict, num_records: int, block_id: str
-    ) -> List[MetricDB]:
-        output: List[MetricDB] = []
+    ) -> List[MetricOutput]:
+        output: List[MetricOutput] = []
 
         cumulative_values = {
             "CREATION": 0,
@@ -28,7 +28,7 @@ class MetricActionType(Metric):
                 cumulative_values[action] += value
                 num_actions_current_month += value
                 output.append(
-                    MetricDB(
+                    MetricOutput(
                         block_id=block_id,
                         metric_name="num_action_" + action.lower(),
                         year_month=year_month,
@@ -41,7 +41,7 @@ class MetricActionType(Metric):
 
             cumulative_values["TOTAL"] += num_actions_current_month
             output.append(
-                MetricDB(
+                MetricOutput(
                     block_id=block_id,
                     metric_name="total_action",
                     year_month=year_month,
@@ -56,7 +56,7 @@ class MetricActionType(Metric):
 
     def calculate_metric_for_block(
         self, records: List[Record], block_id: str
-    ) -> List[MetricDB]:
+    ) -> List[MetricOutput]:
         output = []
         actions_by_month = {}
 

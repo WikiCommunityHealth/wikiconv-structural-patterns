@@ -1,6 +1,6 @@
 from typing import Dict, List
 from .metric import Metric, Record
-from ..database import MetricDB
+from ..output import MetricOutput
 
 
 class MetricToxicity(Metric):
@@ -10,14 +10,14 @@ class MetricToxicity(Metric):
 
     def _output_metrics_for_score(
         self, score_by_month: dict, score_name: str, count_score: int, block_id: str
-    ) -> List[MetricDB]:
-        output: List[MetricDB] = []
+    ) -> List[MetricOutput]:
+        output: List[MetricOutput] = []
 
         cumulative_toxicity = 0
         for year_month, value in score_by_month.items():
             cumulative_toxicity += value
             output.append(
-                MetricDB(
+                MetricOutput(
                     block_id=block_id,
                     metric_name=score_name,
                     year_month=year_month,
@@ -32,7 +32,7 @@ class MetricToxicity(Metric):
 
     def calculate_metric_for_block(
         self, records: List[Record], block_id: str
-    ) -> List[MetricDB]:
+    ) -> List[MetricOutput]:
         output = []
         toxicity_by_month = {}
         severe_toxicity_by_month = {}

@@ -1,6 +1,6 @@
 from typing import Dict, List
 from .metric import Metric, Record
-from ..database import MetricDB
+from ..output import MetricOutput
 
 
 class MetricHIndex(Metric):
@@ -8,7 +8,7 @@ class MetricHIndex(Metric):
     h-index: maximum number h s.t. there are >= h messages with depth >= h
     """
 
-    def _output_metrics(self, depth_by_month: dict, block_id: str) -> List[MetricDB]:
+    def _output_metrics(self, depth_by_month: dict, block_id: str) -> List[MetricOutput]:
         hindexes = {}
         current_depths = {}
         max_hindex = -1
@@ -30,11 +30,11 @@ class MetricHIndex(Metric):
 
             hindexes[year_month] = hindex
 
-        output: List[MetricDB] = []
+        output: List[MetricOutput] = []
 
         for year_month, value in sorted(hindexes.items()):
             output.append(
-                MetricDB(
+                MetricOutput(
                     block_id=block_id,
                     metric_name="hindex",
                     year_month=year_month,
@@ -52,7 +52,7 @@ class MetricHIndex(Metric):
 
     def calculate_metric_for_block(
         self, records: List[Record], block_id: str
-    ) -> List[MetricDB]:
+    ) -> List[MetricOutput]:
         output = []
         depth_by_month = {}
 

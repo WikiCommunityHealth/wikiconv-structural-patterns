@@ -13,13 +13,6 @@ def parse_arguments():
         type=str,
         choices=[None, "gzip"],
     )
-    # parser.add_argument(
-    #     "-db",
-    #     "--database",
-    #     help="output db file",
-    #     type=str,
-    #     default="database.db",
-    # )
 
     return parser.parse_args()
 

@@ -1,6 +1,6 @@
 from typing import Dict, List
 from .metric import Metric, Record
-from ..database import MetricDB
+from ..output import MetricOutput
 
 
 class MetricVandalism(Metric):
@@ -13,14 +13,14 @@ class MetricVandalism(Metric):
 
     def _output_metrics(
         self, vandalism_by_month: dict, count_vandal: int, block_id: str
-    ) -> List[MetricDB]:
-        output: List[MetricDB] = []
+    ) -> List[MetricOutput]:
+        output: List[MetricOutput] = []
 
         cumulative_vandalism = 0
         for year_month, value in vandalism_by_month.items():
             cumulative_vandalism += value
             output.append(
-                MetricDB(
+                MetricOutput(
                     block_id=block_id,
                     metric_name="vandalism",
                     year_month=year_month,
@@ -35,7 +35,7 @@ class MetricVandalism(Metric):
 
     def calculate_metric_for_block(
         self, records: List[Record], block_id: str
-    ) -> List[MetricDB]:
+    ) -> List[MetricOutput]:
         output = []
         vandalism_by_month = {}
         count_vandal = 0

@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 from .. import utils
-from ..database import Database, MetricDB, BufferMetricDB, ChainDB, BufferChainDB
+from ..output import Database, MetricOutput, BufferMetricOutput, ChainOutput, BufferChainOutput
 from .metric import Record, Metric
 from .metric_action_type import MetricActionType
 from .metric_discussion_depth import MetricDiscussionDepth
@@ -41,10 +41,11 @@ class MetricController:
             password=configs_database["password"],
             host=configs_database.get("host", "localhost"),
             port=configs_database.get("port", 5432),
+            reset=configs_database.get("host", False)
         )
 
-        self.buffer_metrics = BufferMetricDB(self.buffer_size, self.database)
-        self.buffer_chains = BufferChainDB(self.buffer_size, self.database)
+        self.buffer_metrics = BufferMetricOutput(self.buffer_size, self.database)
+        self.buffer_chains = BufferChainOutput(self.buffer_size, self.database)
 
         self.metrics: List[Metric] = []
         for metric_name, is_required in configs_metric.items():
