@@ -64,6 +64,9 @@ if __name__ == "__main__":
 
     now = time.perf_counter()
     for file_path in tqdm(args.files):
+        if "times.txt" in file_path:
+            continue
+        
         process_file(file_path, args.compression, configs)
 
         if "json" in configs and "reset" in configs["json"]:
