@@ -14,15 +14,15 @@ port = 5433
 reset = true
 
 [metrics]
-action_type = false
-discussion_depth = false
-toxicity = false
+action_type = true
+discussion_depth = true
+toxicity = true
 user_involved = true
 vandalism = true
-hindex = false
+hindex = true
 chain = true
 
 [general]
 target_field = "pageId"
-buffer_size = 200
+buffer_size = 1000000
 filter_user_pages = true
