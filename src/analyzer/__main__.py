@@ -27,6 +27,7 @@ def process_lines(lines: Generator[str, None, None], configs: Dict[str, Any]) ->
     )
 
     target_field = configs["general"]["target_field"]
+    filter_user_pages = configs["general"]["filter_user_pages"]
 
     controller = MetricController(configs)
     record_buffer: List[Record] = []
@@ -35,6 +36,9 @@ def process_lines(lines: Generator[str, None, None], configs: Dict[str, Any]) ->
     is_new_discussion_page = True
 
     for record in records:
+        if filter_user_pages and record["pageNamespace"] == 3:
+            continue
+
         is_new_discussion_page = previous_line_block_id != record[target_field]
 
         if is_new_discussion_page and previous_line_block_id != -1:
@@ -50,6 +54,7 @@ def process_lines(lines: Generator[str, None, None], configs: Dict[str, Any]) ->
     # calculate metrics for the last block
     controller.calculate_metrics_for_block(record_buffer, previous_line_block_id)
     controller.flush()
+    controller.close()
 
 
 if __name__ == "__main__":
@@ -59,7 +64,12 @@ if __name__ == "__main__":
 
     now = time.perf_counter()
     for file_path in tqdm(args.files):
-        # print(file_path)
         process_file(file_path, args.compression, configs)
+
+        if "json" in configs and "reset" in configs["json"]:
+            configs["json"]["reset"] = False
+
+        if "database" in configs and "reset" in configs["database"]:
+            configs["database"]["reset"] = False
 
     print(f"Elapsed time: {time.perf_counter() - now}")

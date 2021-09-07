@@ -1,3 +1,9 @@
+output_device = "json"
+
+[json]
+filename = "page_metrics_ca"
+reset = true
+
 [database]
 dbname = "postgres"
 table = "page_metrics_ca"
@@ -11,11 +17,12 @@ reset = true
 action_type = false
 discussion_depth = false
 toxicity = false
-user_involved = false
-vandalism = false
+user_involved = true
+vandalism = true
 hindex = false
 chain = true
 
 [general]
-target_field = "pageTitle"
-buffer_size = 1000000
+target_field = "pageId"
+buffer_size = 200
+filter_user_pages = true

@@ -1,3 +1,9 @@
+output_device = "json"
+
+[json]
+filename = "page_metrics_it"
+reset = true
+
 [database]
 dbname = "postgres"
 table = "page_metrics_it"
@@ -17,5 +23,6 @@ hindex = false
 chain = true
 
 [general]
-target_field = "pageTitle"
+target_field = "pageId"
 buffer_size = 500000
+filter_user_pages = true

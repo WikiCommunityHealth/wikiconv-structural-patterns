@@ -1,3 +1,9 @@
+output_device = "json"
+
+[json]
+filename = "user_metrics_it"
+reset = true
+
 [database]
 dbname = "postgres"
 table = "user_metrics_it"
@@ -18,3 +24,4 @@ chain = false
 [general]
 target_field = "username"
 buffer_size = 1000000
+filter_user_pages = false
